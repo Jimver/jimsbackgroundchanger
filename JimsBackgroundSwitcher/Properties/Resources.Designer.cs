@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace JimsBackgroundSwitcher.Properties
-{
-
-
+namespace JimsBackgroundChanger.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,49 +22,114 @@ namespace JimsBackgroundSwitcher.Properties
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources
-    {
-
+    internal class Resources {
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources()
-        {
+        internal Resources() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager
-        {
-            get
-            {
-                if ((resourceMan == null))
-                {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("JimsBackgroundSwitcher.Properties.Resources", typeof(Resources).Assembly);
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("JimsBackgroundChanger.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture
-        {
-            get
-            {
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
                 return resourceCulture;
             }
-            set
-            {
+            set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid input.
+        /// </summary>
+        internal static string Delete_Input_Caption {
+            get {
+                return ResourceManager.GetString("Delete_Input_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Didn&apos;t find anything to delete, make sure you enter the resolution correctly.
+        /// </summary>
+        internal static string Delete_Input_Message {
+            get {
+                return ResourceManager.GetString("Delete_Input_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid input.
+        /// </summary>
+        internal static string Folder_Input_Caption {
+            get {
+                return ResourceManager.GetString("Folder_Input_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The folder doesn&apos;t exist, try another folder..
+        /// </summary>
+        internal static string Folder_Input_Message {
+            get {
+                return ResourceManager.GetString("Folder_Input_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter a valid resolution: width then x then height. For Example: 1920x1080..
+        /// </summary>
+        internal static string Form_addResBtn_Click_Enter_a_valid_resolution__width_then_x_then_height__For_Example__1920x1080_ {
+            get {
+                return ResourceManager.GetString("Form_addResBtn_Click_Enter_a_valid_resolution__width_then_x_then_height__For_Exam" +
+                        "ple__1920x1080_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid input.
+        /// </summary>
+        internal static string Form_addResBtn_Click_Invalid_input {
+            get {
+                return ResourceManager.GetString("Form_addResBtn_Click_Invalid_input", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid input.
+        /// </summary>
+        internal static string Invalid_Resolution_Caption {
+            get {
+                return ResourceManager.GetString("Invalid_Input_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter a valid resolution: width then x then height. For Example: 1920x1080..
+        /// </summary>
+        internal static string Invalid_Resolution_Message {
+            get {
+                return ResourceManager.GetString("Invalid_Resolution_Message", resourceCulture);
             }
         }
     }
