@@ -20,7 +20,6 @@ namespace JimsBackgroundChanger
 
         private void UpdateUi()
         {
-            intervalUpDown.Value = settings.Interval;
             folderView.Items.Clear();
             folderView.Groups.Clear();
             resComboBox.Items.Clear();
@@ -114,12 +113,12 @@ namespace JimsBackgroundChanger
         private void saveBtn_Click(object sender, EventArgs e)
         {
             settings.Save();
+            Wallpaper.SetSlideShow(settings, Wallpaper.GetResolution());
         }
 
         private void nextBtn_Click(object sender, EventArgs e)
         {
-            //todo
-            Wallpaper.GetSlideShow();
+            Wallpaper.NextWallpaper();
         }
 
         private void browseBtn_Click(object sender, EventArgs e)
@@ -128,11 +127,6 @@ namespace JimsBackgroundChanger
             {
                 folderTxtbx.Text = folderBrowserDialog.SelectedPath;
             }
-        }
-
-        private void intervalUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            settings.Interval = (int) intervalUpDown.Value;
         }
     }
 }

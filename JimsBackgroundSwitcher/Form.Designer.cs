@@ -33,14 +33,11 @@
             System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("folder1");
             System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("folder2");
             System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("folder3");
-            this.intervalUpDown = new System.Windows.Forms.NumericUpDown();
             this.folderView = new System.Windows.Forms.ListView();
             this.folderCollumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.deleteFoldersBtn = new System.Windows.Forms.Button();
             this.addFolderBtn = new System.Windows.Forms.Button();
             this.folderTxtbx = new System.Windows.Forms.TextBox();
-            this.intervalLbl = new System.Windows.Forms.Label();
-            this.minutesLbl = new System.Windows.Forms.Label();
             this.folderLbl = new System.Windows.Forms.Label();
             this.resLbl = new System.Windows.Forms.Label();
             this.resComboBox = new System.Windows.Forms.ComboBox();
@@ -50,16 +47,7 @@
             this.saveBtn = new System.Windows.Forms.Button();
             this.nextBtn = new System.Windows.Forms.Button();
             this.browseBtn = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.intervalUpDown)).BeginInit();
             this.SuspendLayout();
-            // 
-            // intervalUpDown
-            // 
-            this.intervalUpDown.Location = new System.Drawing.Point(82, 82);
-            this.intervalUpDown.Name = "intervalUpDown";
-            this.intervalUpDown.Size = new System.Drawing.Size(66, 20);
-            this.intervalUpDown.TabIndex = 4;
-            this.intervalUpDown.ValueChanged += new System.EventHandler(this.intervalUpDown_ValueChanged);
             // 
             // folderView
             // 
@@ -92,9 +80,9 @@
             listViewItem2,
             listViewItem3});
             this.folderView.LabelEdit = true;
-            this.folderView.Location = new System.Drawing.Point(12, 108);
+            this.folderView.Location = new System.Drawing.Point(12, 75);
             this.folderView.Name = "folderView";
-            this.folderView.Size = new System.Drawing.Size(591, 233);
+            this.folderView.Size = new System.Drawing.Size(591, 266);
             this.folderView.TabIndex = 5;
             this.folderView.UseCompatibleStateImageBehavior = false;
             this.folderView.View = System.Windows.Forms.View.Details;
@@ -134,24 +122,6 @@
             this.folderTxtbx.Name = "folderTxtbx";
             this.folderTxtbx.Size = new System.Drawing.Size(359, 20);
             this.folderTxtbx.TabIndex = 8;
-            // 
-            // intervalLbl
-            // 
-            this.intervalLbl.AutoSize = true;
-            this.intervalLbl.Location = new System.Drawing.Point(12, 84);
-            this.intervalLbl.Name = "intervalLbl";
-            this.intervalLbl.Size = new System.Drawing.Size(45, 13);
-            this.intervalLbl.TabIndex = 9;
-            this.intervalLbl.Text = "Inerval :";
-            // 
-            // minutesLbl
-            // 
-            this.minutesLbl.AutoSize = true;
-            this.minutesLbl.Location = new System.Drawing.Point(154, 84);
-            this.minutesLbl.Name = "minutesLbl";
-            this.minutesLbl.Size = new System.Drawing.Size(43, 13);
-            this.minutesLbl.TabIndex = 10;
-            this.minutesLbl.Text = "minutes";
             // 
             // folderLbl
             // 
@@ -250,30 +220,23 @@
             this.Controls.Add(this.resComboBox);
             this.Controls.Add(this.resLbl);
             this.Controls.Add(this.folderLbl);
-            this.Controls.Add(this.minutesLbl);
-            this.Controls.Add(this.intervalLbl);
             this.Controls.Add(this.folderTxtbx);
             this.Controls.Add(this.addFolderBtn);
             this.Controls.Add(this.deleteFoldersBtn);
             this.Controls.Add(this.folderView);
-            this.Controls.Add(this.intervalUpDown);
             this.Name = "Form";
             this.Text = "Jims background changer";
-            ((System.ComponentModel.ISupportInitialize)(this.intervalUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.NumericUpDown intervalUpDown;
         private System.Windows.Forms.ListView folderView;
         private System.Windows.Forms.ColumnHeader folderCollumn;
         private System.Windows.Forms.Button deleteFoldersBtn;
         private System.Windows.Forms.Button addFolderBtn;
         private System.Windows.Forms.TextBox folderTxtbx;
-        private System.Windows.Forms.Label intervalLbl;
-        private System.Windows.Forms.Label minutesLbl;
         private System.Windows.Forms.Label folderLbl;
         private System.Windows.Forms.Label resLbl;
         private System.Windows.Forms.ComboBox resComboBox;

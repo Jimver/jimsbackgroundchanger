@@ -10,7 +10,7 @@ namespace JimsBackgroundChanger
     /// Settings class.
     /// </summary>
     [Serializable]
-    class Settings
+    public class Settings
     {
         /// <summary>
         /// Resolution class for storing folder according to resolution.
@@ -99,12 +99,10 @@ namespace JimsBackgroundChanger
         // Fields
         private static string fileName = "settings.jbc";
         private List<Resolution> _resolutions;
-        private int _interval;
 
-        public Settings(List<Resolution> resolutions, int interval = 30)
+        public Settings(List<Resolution> resolutions)
         {
             _resolutions = resolutions;
-            _interval = interval;
         }
 
         /// <summary>
@@ -114,12 +112,6 @@ namespace JimsBackgroundChanger
         {
             get { return _resolutions; }
             set { _resolutions = value; }
-        }
-
-        public int Interval
-        {
-            get { return _interval; }
-            set { _interval = value; }
         }
 
         /// <summary>

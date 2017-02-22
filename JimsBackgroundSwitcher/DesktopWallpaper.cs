@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -81,8 +84,9 @@ namespace JimsBackgroundChanger
             [PreserveSig]
             uint GetSlideshowOptions(out DesktopSlideshowDirection options, out uint slideshowTick);
 
-            void AdvanceSlideshow([MarshalAs(UnmanagedType.LPWStr)] string monitorID,
-                [MarshalAs(UnmanagedType.I4)] DesktopSlideshowDirection direction);
+            [PreserveSig]
+            uint AdvanceSlideshow([In] [MarshalAs(UnmanagedType.LPWStr)] string monitorID,
+                [In] [MarshalAs(UnmanagedType.I4)] DesktopSlideshowDirection direction);
 
             DesktopSlideshowDirection GetStatus();
 
@@ -105,33 +109,24 @@ namespace JimsBackgroundChanger
     {
         public static void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
         {
-            foreach (Screen screen in Screen.AllScreens)
-            {
-                int width = screen.Bounds.Width;
-                int height = screen.Bounds.Height;
-
-                string resolution = width + "x" + height;
-                Console.Out.WriteLine("res = " + resolution);
-            }
+            SetSlideShow(Settings.Load(), GetResolution());
         }
 
-        public static void GetSlideShow()
+        public static void GetSlideShow(string[] paths)
         {
+            // Load into memory
             DesktopWallpaper.IDesktopWallpaper wallpaper = DesktopWallpaper.WallpaperWrapper.GetWallpaper();
+            IShellItemArray slideshow = wallpaper.GetSlideshow();
+            IShellItemArray pictures = FoldersToShellItemArray(paths);
 
-            var slideshow = wallpaper.GetSlideshow();
-            Console.Out.WriteLine("Size: " + slideshow.GetCount());
+            Console.Out.WriteLine("Now: ");
+            PrintShellItemArray(slideshow);
+            Console.Out.WriteLine("Program: ");
+            PrintShellItemArray(pictures);
 
-            IShellItem si;
-            si = slideshow.GetItemAt(0);
-
-            string name;
-            name = si.GetDisplayName(SIGDN.SIGDN_NORMALDISPLAY);
-
-
-            Console.Out.WriteLine("damn " + name);
-            
-
+            // Cleanup
+            Marshal.ReleaseComObject(pictures);
+            Marshal.ReleaseComObject(slideshow);
             Marshal.ReleaseComObject(wallpaper);
         }
 
@@ -148,6 +143,38 @@ namespace JimsBackgroundChanger
             Marshal.ReleaseComObject(wallpaper);
         }
 
+        public static void NextWallpaper()
+        {
+            DesktopWallpaper.IDesktopWallpaper wallpaper = DesktopWallpaper.WallpaperWrapper.GetWallpaper();
+
+            Console.Out.WriteLine("Mon amount: " + wallpaper.GetMonitorDevicePathCount());
+            string monitor = wallpaper.GetMonitorDevicePathAt(0);
+            Console.Out.WriteLine("mon id: " + monitor);
+            wallpaper.AdvanceSlideshow(null, DesktopWallpaper.DesktopSlideshowDirection.Forward);
+
+            Marshal.ReleaseComObject(wallpaper);
+        }
+
+        public static Settings.Resolution GetResolution()
+        {
+            Screen biggestScreen = Screen.PrimaryScreen;
+            foreach (Screen screen in Screen.AllScreens)
+            {
+                if (screen.Bounds.Width*screen.Bounds.Height > biggestScreen.Bounds.Width*biggestScreen.Bounds.Height) biggestScreen = screen;
+            }
+            return new Settings.Resolution(biggestScreen.Bounds.Width, biggestScreen.Bounds.Height, null);
+        }
+
+        public static void SetSlideShow(Settings settings, Settings.Resolution resolution)
+        {
+            DesktopWallpaper.IDesktopWallpaper wallpaper = DesktopWallpaper.WallpaperWrapper.GetWallpaper();
+            IShellItemArray pictures = FoldersToShellItemArray(settings.Resolutions.Find(res => res.Equals(resolution)).Folders.ToArray());
+
+            wallpaper.SetSlideshow(pictures);
+
+            Marshal.ReleaseComObject(wallpaper);
+        }
+        
         public enum SIGDN : UInt32
         {
             SIGDN_NORMALDISPLAY = 0x00000000,
@@ -171,7 +198,7 @@ namespace JimsBackgroundChanger
         }
 
         [ComImport, InterfaceType(ComInterfaceType.InterfaceIsIUnknown), Guid("43826d1e-e718-42ee-bc55-a1e261c37bfe")]
-        internal interface IShellItem
+        public interface IShellItem
         {
             // Not supported: IBindCtx.
             [PreserveSig]
@@ -198,13 +225,6 @@ namespace JimsBackgroundChanger
                 [In, MarshalAs(UnmanagedType.Interface)] IShellItem psi,
                 [In] SICHINTF hint,
                 out int piOrder);
-        }
-
-        public struct REFGUID
-        {
-            public static Guid BHID_SFUIObject = new Guid("3981E225-F559-11D3-8E3A-00C04F6837D5");
-            public static Guid BHID_DataObject = new Guid("B8C0BD9F-ED24-455C-83E6-D5390C4FE8C4");
-            public static Guid BHID_AssociationArray = new Guid("BEA9EF17-82F1-4F60-9284-4F8DB75C3BE9");
         }
 
         public enum SIATTRIBFLAGS
@@ -261,25 +281,8 @@ namespace JimsBackgroundChanger
             public UInt32 pid;
         }
 
-        public enum GETPROPERTYSTOREFLAGS
-        {
-            GPS_DEFAULT = 0,
-            GPS_HANDLERPROPERTIESONLY = 0x1,
-            GPS_READWRITE = 0x2,
-            GPS_TEMPORARY = 0x4,
-            GPS_FASTPROPERTIESONLY = 0x8,
-            GPS_OPENSLOWITEM = 0x10,
-            GPS_DELAYCREATION = 0x20,
-            GPS_BESTEFFORT = 0x40,
-            GPS_NO_OPLOCK = 0x80,
-            GPS_PREFERQUERYPROPERTIES = 0x100,
-            GPS_MASK_VALID = 0x1ff,
-            GPS_EXTRINSICPROPERTIES = 0x00000200,
-            GPS_EXTRINSICPROPERTIESONLY = 0x00000400
-        }
-
         [ComImport, InterfaceType(ComInterfaceType.InterfaceIsIUnknown), Guid("b63ea76d-1f85-456f-a19c-48159efa858b")]
-        internal interface IShellItemArray
+        public interface IShellItemArray
         {
             // Not supported: IBindCtx.
             [PreserveSig]
@@ -322,5 +325,85 @@ namespace JimsBackgroundChanger
             [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
             int EnumItems([MarshalAs(UnmanagedType.Interface)] out IntPtr ppenumShellItems);
         }
+
+        public static void PrintShellItemArray(IShellItemArray shellItemArray)
+        {
+            for (uint i = 0; i < shellItemArray.GetCount(); i++)
+            {
+                IShellItem si = shellItemArray.GetItemAt(i);
+                Console.Out.WriteLine(si.GetDisplayName(SIGDN.SIGDN_FILESYSPATH));
+                Marshal.ReleaseComObject(si);
+            }
+        }
+
+        public static IShellItemArray FoldersToShellItemArray(string[] paths)
+        {
+            foreach (string path in paths)
+            {
+                if (!Directory.Exists(path)) throw new ArgumentException("The path does not exist.");
+            }
+
+            List<string> files = new List<string>();
+
+            foreach (string path in paths)
+            {
+                string[] shortFiles = Directory.GetFiles(path);
+                foreach (string file in shortFiles)
+                {
+                    if (IsImage(file)) files.Add(file);
+                }
+            }
+
+            IntPtr[] PDILArr = new IntPtr[files.Count];
+
+            for (int i = 0; i < files.Count; i++)
+            {
+                PDILArr[i] = ILCreateFromPath(files[i]);
+            }
+
+            IShellItemArray siArr;
+            SHCreateShellItemArrayFromIDLists((uint) files.Count, PDILArr, out siArr);
+
+            return siArr;
+        }
+
+        public static bool IsImage(string file)
+        {
+            if (!File.Exists(file)) throw new ArgumentException("Image doesn't exist.");
+            Stream stream = new FileStream(file, FileMode.Open);
+            stream.Seek(0, SeekOrigin.Begin);
+
+            List<string> jpg = new List<string> {"FF", "D8"};
+            List<string> bmp = new List<string> {"42", "4D"};
+            List<string> gif = new List<string> {"47", "49", "46"};
+            List<string> png = new List<string> {"89", "50", "4E", "47", "0D", "0A", "1A", "0A"};
+            List<List<string>> imgTypes = new List<List<string>> {jpg, bmp, gif, png};
+
+            List<string> bytesIterated = new List<string>();
+
+            for (int i = 0; i < 8; i++)
+            {
+                string bit = stream.ReadByte().ToString("X2");
+                bytesIterated.Add(bit);
+
+                bool isImage = imgTypes.Any(img => !img.Except(bytesIterated).Any());
+                if (isImage)
+                {
+                    stream.Close();
+                    return true;
+                }
+            }
+            stream.Close();
+            return false;
+        }
+
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode, PreserveSig = true)]
+        private static extern void SHCreateShellItemArrayFromIDLists(
+            [In] uint cidl,
+            [In] IntPtr[] rgpidl,
+            [Out] out IShellItemArray ppsiItemArray);
+
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode, PreserveSig = true)]
+        private static extern IntPtr ILCreateFromPath([In] [MarshalAs(UnmanagedType.LPWStr)] string pszPath);
     }
 }
