@@ -120,6 +120,7 @@ namespace JimsBackgroundChanger
         private void nextBtn_Click(object sender, EventArgs e)
         {
             //todo
+            Wallpaper.GetSlideShow();
         }
 
         private void browseBtn_Click(object sender, EventArgs e)
