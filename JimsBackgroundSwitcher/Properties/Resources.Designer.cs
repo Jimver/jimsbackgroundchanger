@@ -120,7 +120,7 @@ namespace JimsBackgroundChanger.Properties {
         /// </summary>
         internal static string Invalid_Resolution_Caption {
             get {
-                return ResourceManager.GetString("Invalid_Input_Caption", resourceCulture);
+                return ResourceManager.GetString("Invalid_Resolution_Caption", resourceCulture);
             }
         }
         
