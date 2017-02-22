@@ -1,7 +1,6 @@
 ﻿using System;
-using System.ComponentModel.Design;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
 using System.Windows.Forms;
 
 namespace JimsBackgroundChanger
@@ -73,9 +72,9 @@ namespace JimsBackgroundChanger
             [return: MarshalAs(UnmanagedType.I4)]
             DesktopWallpaperPosition GetPosition();
 
-            void SetSlideshow(IntPtr items);
+            void SetSlideshow(Wallpaper.IShellItemArray items);
 
-            IntPtr GetSlideshow();
+            Wallpaper.IShellItemArray GetSlideshow();
 
             void SetSlideshowOptions(DesktopSlideshowDirection options, uint slideshowTick);
 
@@ -112,7 +111,7 @@ namespace JimsBackgroundChanger
                 int height = screen.Bounds.Height;
 
                 string resolution = width + "x" + height;
-                Console.Out.WriteLine(resolution);
+                Console.Out.WriteLine("res = " + resolution);
             }
         }
 
@@ -120,22 +119,18 @@ namespace JimsBackgroundChanger
         {
             DesktopWallpaper.IDesktopWallpaper wallpaper = DesktopWallpaper.WallpaperWrapper.GetWallpaper();
 
-            var slideshowPointer = wallpaper.GetSlideshow();
+            var slideshow = wallpaper.GetSlideshow();
+            Console.Out.WriteLine("Size: " + slideshow.GetCount());
 
-            var arr = Marshal.GetObjectForIUnknown(slideshowPointer);
+            IShellItem si;
+            si = slideshow.GetItemAt(0);
 
-            var shellArr = (IShellItemArray) arr;
-            IntPtr item0Pointer;
-            shellArr.GetItemAt(1, out item0Pointer);
+            string name;
+            name = si.GetDisplayName(SIGDN.SIGDN_NORMALDISPLAY);
 
-            var item0Raw = Marshal.GetObjectForIUnknown(item0Pointer);
-            var item0 = (IShellItem) item0Raw;
 
-            Console.Out.WriteLine(item0.GetDisplayName(SIGDN.SIGDN_URL));
-
-            Marshal.ReleaseComObject(arr);
-
-            Marshal.ReleaseComObject(item0Raw);
+            Console.Out.WriteLine("damn " + name);
+            
 
             Marshal.ReleaseComObject(wallpaper);
         }
@@ -175,18 +170,34 @@ namespace JimsBackgroundChanger
             SICHINT_TEST_FILESYSPATH_IF_NOT_EQUAL = 0x20000000
         }
 
-        [ComImport]
-        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-        [Guid("43826d1e-e718-42ee-bc55-a1e261c37bfe")]
-        public interface IShellItem
+        [ComImport, InterfaceType(ComInterfaceType.InterfaceIsIUnknown), Guid("43826d1e-e718-42ee-bc55-a1e261c37bfe")]
+        internal interface IShellItem
         {
-            void BindToHandler(IBindCtx pbc, REFGUID rbhid, Guid riid);
-            void Compare(IShellItem psi, SICHINTF hint, int piOrder);
-            SFGAOF GetAttributes(SFGAOF sfgaoMask);
-            void GetParent(IntPtr ppsi);
+            // Not supported: IBindCtx.
+            [PreserveSig]
+            [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+            int BindToHandler(
+                [In] IntPtr pbc,
+                [In] ref Guid bhid,
+                [In] ref Guid riid,
+                [Out, MarshalAs(UnmanagedType.Interface)] out IntPtr ppv);
 
+            [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+            void GetParent([MarshalAs(UnmanagedType.Interface)] out IShellItem ppsi);
+
+            [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
             [return: MarshalAs(UnmanagedType.LPWStr)]
-            string GetDisplayName(SIGDN sigdnName);
+            string GetDisplayName([In] SIGDN sigdnName);
+
+            [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+            void GetAttributes([In] SFGAOF sfgaoMask, out SFGAOF psfgaoAttribs);
+
+            [PreserveSig]
+            [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+            int Compare(
+                [In, MarshalAs(UnmanagedType.Interface)] IShellItem psi,
+                [In] SICHINTF hint,
+                out int piOrder);
         }
 
         public struct REFGUID
@@ -267,18 +278,49 @@ namespace JimsBackgroundChanger
             GPS_EXTRINSICPROPERTIESONLY = 0x00000400
         }
 
-        [ComImport]
-        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-        [Guid("b63ea76d-1f85-456f-a19c-48159efa858b")]
-        public interface IShellItemArray
+        [ComImport, InterfaceType(ComInterfaceType.InterfaceIsIUnknown), Guid("b63ea76d-1f85-456f-a19c-48159efa858b")]
+        internal interface IShellItemArray
         {
-            void BindToHandler(IBindCtx pbc, REFGUID rbhid, Guid riid);
-            IntPtr EnumItems();
-            SFGAOF GetAttributes(SIATTRIBFLAGS dwAttribFlags, SFGAOF sfgaoMask);
-            UInt32 GetCount();
-            uint GetItemAt(UInt32 dwIndex, out IntPtr ppsi);
-            void GetPropertyDescriptionList(PROPERTYKEY keyType, Guid riid);
-            void GetPropertyStoreFlags(GETPROPERTYSTOREFLAGS flags, Guid riid);
+            // Not supported: IBindCtx.
+            [PreserveSig]
+            [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+            int BindToHandler(
+                [In, MarshalAs(UnmanagedType.Interface)] IntPtr pbc,
+                [In] ref Guid rbhid,
+                [In] ref Guid riid,
+                out IntPtr ppvOut);
+
+            [PreserveSig]
+            [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+            int GetPropertyStore(
+                [In] int Flags,
+                [In] ref Guid riid,
+                out IntPtr ppv);
+
+            [PreserveSig]
+            [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+            int GetPropertyDescriptionList(
+                [In] ref PROPERTYKEY keyType,
+                [In] ref Guid riid,
+                out IntPtr ppv);
+
+            [PreserveSig]
+            [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+            int GetAttributes(
+                [In] SIATTRIBFLAGS dwAttribFlags,
+                [In] SFGAOF sfgaoMask,
+                out SFGAOF psfgaoAttribs);
+
+            [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+            uint GetCount();
+
+            [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+            IShellItem GetItemAt([In] uint dwIndex);
+
+            // Not supported: IEnumShellItems (will use GetCount and GetItemAt instead).
+            [PreserveSig]
+            [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+            int EnumItems([MarshalAs(UnmanagedType.Interface)] out IntPtr ppenumShellItems);
         }
     }
 }
