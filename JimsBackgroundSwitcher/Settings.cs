@@ -99,10 +99,12 @@ namespace JimsBackgroundChanger
         // Fields
         private static string fileName = "settings.jbc";
         private List<Resolution> _resolutions;
+        private bool _startup;
 
-        public Settings(List<Resolution> resolutions)
+        public Settings(List<Resolution> resolutions, bool startup)
         {
             _resolutions = resolutions;
+            _startup = startup;
         }
 
         /// <summary>
@@ -114,6 +116,12 @@ namespace JimsBackgroundChanger
             set { _resolutions = value; }
         }
 
+        public bool Startup
+        {
+            get { return _startup; }
+            set { _startup = value; }
+        }
+
         /// <summary>
         /// Load function.
         /// </summary>
@@ -123,7 +131,7 @@ namespace JimsBackgroundChanger
             // Create an empty settings file if it doesn't exist.
             if (!File.Exists(fileName))
             {
-                new Settings(new List<Resolution>()).Save();
+                new Settings(new List<Resolution>(), false).Save();
             }
 
             // Create stream and Settings.

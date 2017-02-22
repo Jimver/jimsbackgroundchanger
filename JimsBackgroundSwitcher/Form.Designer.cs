@@ -47,6 +47,7 @@
             this.saveBtn = new System.Windows.Forms.Button();
             this.nextBtn = new System.Windows.Forms.Button();
             this.browseBtn = new System.Windows.Forms.Button();
+            this.startupChkBx = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // folderView
@@ -80,9 +81,9 @@
             listViewItem2,
             listViewItem3});
             this.folderView.LabelEdit = true;
-            this.folderView.Location = new System.Drawing.Point(12, 75);
+            this.folderView.Location = new System.Drawing.Point(12, 100);
             this.folderView.Name = "folderView";
-            this.folderView.Size = new System.Drawing.Size(591, 266);
+            this.folderView.Size = new System.Drawing.Size(591, 241);
             this.folderView.TabIndex = 5;
             this.folderView.UseCompatibleStateImageBehavior = false;
             this.folderView.View = System.Windows.Forms.View.Details;
@@ -207,11 +208,23 @@
             this.browseBtn.UseVisualStyleBackColor = true;
             this.browseBtn.Click += new System.EventHandler(this.browseBtn_Click);
             // 
+            // startupChkBx
+            // 
+            this.startupChkBx.AutoSize = true;
+            this.startupChkBx.Location = new System.Drawing.Point(15, 77);
+            this.startupChkBx.Name = "startupChkBx";
+            this.startupChkBx.Size = new System.Drawing.Size(93, 17);
+            this.startupChkBx.TabIndex = 19;
+            this.startupChkBx.Text = "Run at startup";
+            this.startupChkBx.UseVisualStyleBackColor = true;
+            this.startupChkBx.CheckedChanged += new System.EventHandler(this.startupChkBx_CheckedChanged);
+            // 
             // Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(615, 382);
+            this.Controls.Add(this.startupChkBx);
             this.Controls.Add(this.browseBtn);
             this.Controls.Add(this.nextBtn);
             this.Controls.Add(this.saveBtn);
@@ -246,6 +259,7 @@
         private System.Windows.Forms.Button saveBtn;
         private System.Windows.Forms.Button nextBtn;
         private System.Windows.Forms.Button browseBtn;
+        private System.Windows.Forms.CheckBox startupChkBx;
     }
 }
 

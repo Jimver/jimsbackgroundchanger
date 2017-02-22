@@ -4,11 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using JimsBackgroundChanger.Properties;
+using Microsoft.Win32;
 
 namespace JimsBackgroundChanger
 {
     public partial class Form : System.Windows.Forms.Form
     {
+        private static string AppName = "Jim's Background Changer";
         private Settings settings;
 
         public Form()
@@ -20,6 +22,7 @@ namespace JimsBackgroundChanger
 
         private void UpdateUi()
         {
+            startupChkBx.Checked = settings.Startup;
             folderView.Items.Clear();
             folderView.Groups.Clear();
             resComboBox.Items.Clear();
@@ -113,6 +116,14 @@ namespace JimsBackgroundChanger
         private void saveBtn_Click(object sender, EventArgs e)
         {
             settings.Save();
+            RegistryKey rk = Registry.CurrentUser.OpenSubKey
+                ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            if (settings.Startup)
+            {
+                rk?.SetValue(AppName, Application.ExecutablePath);
+            }
+            else
+                rk?.DeleteValue(AppName, false);
             Wallpaper.SetSlideShow(settings, Wallpaper.GetResolution());
         }
 
@@ -127,6 +138,11 @@ namespace JimsBackgroundChanger
             {
                 folderTxtbx.Text = folderBrowserDialog.SelectedPath;
             }
+        }
+
+        private void startupChkBx_CheckedChanged(object sender, EventArgs e)
+        {
+            settings.Startup = startupChkBx.Checked;
         }
     }
 }
