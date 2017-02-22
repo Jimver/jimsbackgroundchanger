@@ -1,4 +1,4 @@
-# Jim's Background Changer [![Build Status](https://travis-ci.org/Jimver/jimsbackgroundchanger.svg?branch=master)](https://travis-ci.org/Jimver/jimsbackgroundchanger)
+# Jim's Background Changer [![Build Status](https://travis-ci.org/Jimver/jimsbackgroundchanger.svg?branch=master)](https://travis-ci.org/Jimver/jimsbackgroundchanger) [![Coverage Status](https://coveralls.io/repos/github/Jimver/jimsbackgroundchanger/badge.svg?branch=master)](https://coveralls.io/github/Jimver/jimsbackgroundchanger?branch=master)
 Background changer that changes depending on resolution
 
 Use cases:
