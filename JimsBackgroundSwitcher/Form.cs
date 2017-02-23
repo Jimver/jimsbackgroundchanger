@@ -22,6 +22,15 @@ namespace JimsBackgroundChanger
 
         private void UpdateUi()
         {
+            RegistryKey jpegHack = Registry.CurrentUser.OpenSubKey
+                ("Control Panel\\Desktop", true);
+            var val = jpegHack?.GetValue("JPEGImportQuality");
+            if (jpegHack != null && val != null)
+            {
+                jpegHackChkBx.Checked = (int)val == 100;
+            }
+            else jpegHackChkBx.Checked = false;
+
             startupChkBx.Checked = settings.Startup;
             folderView.Items.Clear();
             folderView.Groups.Clear();
@@ -169,6 +178,20 @@ namespace JimsBackgroundChanger
         private void refreshScreens_Click(object sender, EventArgs e)
         {
             Wallpaper.SystemEvents_DisplaySettingsChanged(this, new EventArgs());
+        }
+
+        private void jpegHackChkBx_CheckedChanged(object sender, EventArgs e)
+        {
+            RegistryKey jpegHack = Registry.CurrentUser.OpenSubKey
+                ("Control Panel\\Desktop", true);
+            if (jpegHackChkBx.Checked)
+            {
+                jpegHack?.SetValue("JPEGImportQuality", 100, RegistryValueKind.DWord);
+            }
+            else
+            {
+                jpegHack?.DeleteValue("JPEGImportQuality");
+            }
         }
     }
 }

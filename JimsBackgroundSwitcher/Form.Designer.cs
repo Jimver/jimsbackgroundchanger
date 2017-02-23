@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("1920x1080", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("3440x1440", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("folder1");
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("folder2");
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("folder3");
+            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("1920x1080", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("3440x1440", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("folder1");
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("folder2");
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("folder3");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form));
             this.folderView = new System.Windows.Forms.ListView();
             this.folderCollumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -54,6 +54,7 @@
             this.notifyContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.nextWallPaper = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshScreens = new System.Windows.Forms.ToolStripMenuItem();
+            this.jpegHackChkBx = new System.Windows.Forms.CheckBox();
             this.notifyContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,30 +68,30 @@
             this.folderCollumn});
             this.folderView.FullRowSelect = true;
             this.folderView.GridLines = true;
-            listViewGroup1.Header = "1920x1080";
-            listViewGroup1.Name = "res1";
-            listViewGroup2.Header = "3440x1440";
-            listViewGroup2.Name = "res2";
+            listViewGroup3.Header = "1920x1080";
+            listViewGroup3.Name = "res1";
+            listViewGroup4.Header = "3440x1440";
+            listViewGroup4.Name = "res2";
             this.folderView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2});
-            listViewItem1.Group = listViewGroup1;
-            listViewItem1.StateImageIndex = 0;
-            listViewItem1.ToolTipText = "lel";
-            listViewItem2.Group = listViewGroup1;
-            listViewItem2.StateImageIndex = 0;
-            listViewItem2.ToolTipText = "f2";
-            listViewItem3.Group = listViewGroup2;
-            listViewItem3.StateImageIndex = 0;
-            listViewItem3.ToolTipText = "fu";
+            listViewGroup3,
+            listViewGroup4});
+            listViewItem4.Group = listViewGroup3;
+            listViewItem4.StateImageIndex = 0;
+            listViewItem4.ToolTipText = "lel";
+            listViewItem5.Group = listViewGroup3;
+            listViewItem5.StateImageIndex = 0;
+            listViewItem5.ToolTipText = "f2";
+            listViewItem6.Group = listViewGroup4;
+            listViewItem6.StateImageIndex = 0;
+            listViewItem6.ToolTipText = "fu";
             this.folderView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3});
+            listViewItem4,
+            listViewItem5,
+            listViewItem6});
             this.folderView.LabelEdit = true;
-            this.folderView.Location = new System.Drawing.Point(12, 100);
+            this.folderView.Location = new System.Drawing.Point(12, 124);
             this.folderView.Name = "folderView";
-            this.folderView.Size = new System.Drawing.Size(591, 241);
+            this.folderView.Size = new System.Drawing.Size(591, 217);
             this.folderView.TabIndex = 5;
             this.folderView.UseCompatibleStateImageBehavior = false;
             this.folderView.View = System.Windows.Forms.View.Details;
@@ -218,7 +219,7 @@
             // startupChkBx
             // 
             this.startupChkBx.AutoSize = true;
-            this.startupChkBx.Location = new System.Drawing.Point(15, 77);
+            this.startupChkBx.Location = new System.Drawing.Point(12, 78);
             this.startupChkBx.Name = "startupChkBx";
             this.startupChkBx.Size = new System.Drawing.Size(93, 17);
             this.startupChkBx.TabIndex = 19;
@@ -240,7 +241,7 @@
             this.nextWallPaper,
             this.refreshScreens});
             this.notifyContextMenuStrip.Name = "notifyContextMenuStrip";
-            this.notifyContextMenuStrip.Size = new System.Drawing.Size(157, 70);
+            this.notifyContextMenuStrip.Size = new System.Drawing.Size(157, 48);
             // 
             // nextWallPaper
             // 
@@ -256,11 +257,23 @@
             this.refreshScreens.Text = "Refresh Screens";
             this.refreshScreens.Click += new System.EventHandler(this.refreshScreens_Click);
             // 
+            // jpegHackChkBx
+            // 
+            this.jpegHackChkBx.AutoSize = true;
+            this.jpegHackChkBx.Location = new System.Drawing.Point(13, 101);
+            this.jpegHackChkBx.Name = "jpegHackChkBx";
+            this.jpegHackChkBx.Size = new System.Drawing.Size(113, 17);
+            this.jpegHackChkBx.TabIndex = 21;
+            this.jpegHackChkBx.Text = "JPEG quality hack";
+            this.jpegHackChkBx.UseVisualStyleBackColor = true;
+            this.jpegHackChkBx.CheckedChanged += new System.EventHandler(this.jpegHackChkBx_CheckedChanged);
+            // 
             // Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(615, 382);
+            this.Controls.Add(this.jpegHackChkBx);
             this.Controls.Add(this.startupChkBx);
             this.Controls.Add(this.browseBtn);
             this.Controls.Add(this.nextBtn);
@@ -304,6 +317,7 @@
         private System.Windows.Forms.ContextMenuStrip notifyContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem nextWallPaper;
         private System.Windows.Forms.ToolStripMenuItem refreshScreens;
+        private System.Windows.Forms.CheckBox jpegHackChkBx;
     }
 }
 
