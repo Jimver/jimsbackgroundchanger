@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("1920x1080", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("3440x1440", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("folder1");
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("folder2");
-            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("folder3");
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("1920x1080", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("3440x1440", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("folder1");
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("folder2");
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("folder3");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form));
             this.folderView = new System.Windows.Forms.ListView();
             this.folderCollumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -68,26 +68,26 @@
             this.folderCollumn});
             this.folderView.FullRowSelect = true;
             this.folderView.GridLines = true;
-            listViewGroup3.Header = "1920x1080";
-            listViewGroup3.Name = "res1";
-            listViewGroup4.Header = "3440x1440";
-            listViewGroup4.Name = "res2";
+            listViewGroup1.Header = "1920x1080";
+            listViewGroup1.Name = "res1";
+            listViewGroup2.Header = "3440x1440";
+            listViewGroup2.Name = "res2";
             this.folderView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup3,
-            listViewGroup4});
-            listViewItem4.Group = listViewGroup3;
-            listViewItem4.StateImageIndex = 0;
-            listViewItem4.ToolTipText = "lel";
-            listViewItem5.Group = listViewGroup3;
-            listViewItem5.StateImageIndex = 0;
-            listViewItem5.ToolTipText = "f2";
-            listViewItem6.Group = listViewGroup4;
-            listViewItem6.StateImageIndex = 0;
-            listViewItem6.ToolTipText = "fu";
+            listViewGroup1,
+            listViewGroup2});
+            listViewItem1.Group = listViewGroup1;
+            listViewItem1.StateImageIndex = 0;
+            listViewItem1.ToolTipText = "lel";
+            listViewItem2.Group = listViewGroup1;
+            listViewItem2.StateImageIndex = 0;
+            listViewItem2.ToolTipText = "f2";
+            listViewItem3.Group = listViewGroup2;
+            listViewItem3.StateImageIndex = 0;
+            listViewItem3.ToolTipText = "fu";
             this.folderView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem4,
-            listViewItem5,
-            listViewItem6});
+            listViewItem1,
+            listViewItem2,
+            listViewItem3});
             this.folderView.LabelEdit = true;
             this.folderView.Location = new System.Drawing.Point(12, 124);
             this.folderView.Name = "folderView";
