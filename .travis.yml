@@ -1,2 +1,11 @@
 language: csharp
 solution: JimsBackgroundChanger.sln
+deploy:
+  provider: releases
+  api_key:
+    secure: e7r+gPTjXvtlH9X8z9Uoa/c94r+3AnitV/JTGZbdymnX0YSM5xS6yApdZRAc0wyZ0uNssSHuJ9mKNob9msREvdz9Et4W5lrZNKSs/6V1++mD1QYmsfPrGWafdHy2u7uEcgXDKhzf7R+s58d9G38F1jJ8H+njacFBksS1DiEeh1FqSBa4k9td7uoLSEn3sVFgbYLvsPmSZDo6DbBD2tw19kZqoXrPiNG6zFI6JUAlzwJHHf/VE4afGMNSZPy783dMjaHqakYOcCkwBZhPGUCy8HcWZsgJJ8LYtTCLTtz2yliB1Qr7qcwJw5lyky97Uk/7ZNb4V9soT5c61T2oF8fv0i8IIvxGcxTvAIAt9s3rDcKeLkv99RhpkZ2ZNr4fJiVLHGTgJ6FIA68/4FaP0evGYxs4zfgKZ3sMWbxcQZ8iuM8k+hk/feDnscCQ1l8MpH1n/vMy6paHfRpM9sUuMBckJLmtvl36MwxF7Ig4Ge5BP/qYT1h6GPe5A/rO0ighRxwTR/mjJR3qAxWy9u+clW3a6nLy8sS9iOGIhC2xqp/Cztn6QdLXVmoG1IWH4T+L/sIjReRBmFB0vUxEdhBPJcCOIWoJ65xL5JOgbf7iXPk8/9Rp9lZgUZ2TnlOrafpApLPC6ue4aH1RmrX82cGOK/KmAvk1xBnhHm9HZqehXzmNg5c=
+  file: JimsBackgroundChanger\bin\Release\JimsBackgroundChanger.exe
+  skip_cleanup: true
+  on:
+    repo: Jimver/jimsbackgroundchanger
+	tags: true
