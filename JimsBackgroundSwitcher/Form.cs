@@ -160,5 +160,15 @@ namespace JimsBackgroundChanger
             WindowState = FormWindowState.Normal;
             notifyIcon.Visible = false;
         }
+
+        private void nextWallPaper_Click(object sender, EventArgs e)
+        {
+            Wallpaper.NextWallpaper();
+        }
+
+        private void refreshScreens_Click(object sender, EventArgs e)
+        {
+            Wallpaper.SystemEvents_DisplaySettingsChanged(this, new EventArgs());
+        }
     }
 }

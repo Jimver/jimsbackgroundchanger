@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewGroup listViewGroup7 = new System.Windows.Forms.ListViewGroup("1920x1080", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup8 = new System.Windows.Forms.ListViewGroup("3440x1440", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem("folder1");
-            System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem("folder2");
-            System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem("folder3");
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("1920x1080", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("3440x1440", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("folder1");
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("folder2");
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("folder3");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form));
             this.folderView = new System.Windows.Forms.ListView();
             this.folderCollumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -51,6 +51,10 @@
             this.browseBtn = new System.Windows.Forms.Button();
             this.startupChkBx = new System.Windows.Forms.CheckBox();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.notifyContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.nextWallPaper = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshScreens = new System.Windows.Forms.ToolStripMenuItem();
+            this.notifyContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // folderView
@@ -63,26 +67,26 @@
             this.folderCollumn});
             this.folderView.FullRowSelect = true;
             this.folderView.GridLines = true;
-            listViewGroup7.Header = "1920x1080";
-            listViewGroup7.Name = "res1";
-            listViewGroup8.Header = "3440x1440";
-            listViewGroup8.Name = "res2";
+            listViewGroup1.Header = "1920x1080";
+            listViewGroup1.Name = "res1";
+            listViewGroup2.Header = "3440x1440";
+            listViewGroup2.Name = "res2";
             this.folderView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup7,
-            listViewGroup8});
-            listViewItem10.Group = listViewGroup7;
-            listViewItem10.StateImageIndex = 0;
-            listViewItem10.ToolTipText = "lel";
-            listViewItem11.Group = listViewGroup7;
-            listViewItem11.StateImageIndex = 0;
-            listViewItem11.ToolTipText = "f2";
-            listViewItem12.Group = listViewGroup8;
-            listViewItem12.StateImageIndex = 0;
-            listViewItem12.ToolTipText = "fu";
+            listViewGroup1,
+            listViewGroup2});
+            listViewItem1.Group = listViewGroup1;
+            listViewItem1.StateImageIndex = 0;
+            listViewItem1.ToolTipText = "lel";
+            listViewItem2.Group = listViewGroup1;
+            listViewItem2.StateImageIndex = 0;
+            listViewItem2.ToolTipText = "f2";
+            listViewItem3.Group = listViewGroup2;
+            listViewItem3.StateImageIndex = 0;
+            listViewItem3.ToolTipText = "fu";
             this.folderView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem10,
-            listViewItem11,
-            listViewItem12});
+            listViewItem1,
+            listViewItem2,
+            listViewItem3});
             this.folderView.LabelEdit = true;
             this.folderView.Location = new System.Drawing.Point(12, 100);
             this.folderView.Name = "folderView";
@@ -224,10 +228,33 @@
             // 
             // notifyIcon
             // 
+            this.notifyIcon.ContextMenuStrip = this.notifyContextMenuStrip;
             this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
             this.notifyIcon.Text = "notifyIcon";
             this.notifyIcon.Visible = true;
             this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
+            // 
+            // notifyContextMenuStrip
+            // 
+            this.notifyContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.nextWallPaper,
+            this.refreshScreens});
+            this.notifyContextMenuStrip.Name = "notifyContextMenuStrip";
+            this.notifyContextMenuStrip.Size = new System.Drawing.Size(157, 70);
+            // 
+            // nextWallPaper
+            // 
+            this.nextWallPaper.Name = "nextWallPaper";
+            this.nextWallPaper.Size = new System.Drawing.Size(156, 22);
+            this.nextWallPaper.Text = "Next Wallpaper";
+            this.nextWallPaper.Click += new System.EventHandler(this.nextWallPaper_Click);
+            // 
+            // refreshScreens
+            // 
+            this.refreshScreens.Name = "refreshScreens";
+            this.refreshScreens.Size = new System.Drawing.Size(156, 22);
+            this.refreshScreens.Text = "Refresh Screens";
+            this.refreshScreens.Click += new System.EventHandler(this.refreshScreens_Click);
             // 
             // Form
             // 
@@ -251,6 +278,7 @@
             this.Name = "Form";
             this.Text = "Jims background changer";
             this.Resize += new System.EventHandler(this.Form_Resize);
+            this.notifyContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -273,6 +301,9 @@
         private System.Windows.Forms.Button browseBtn;
         private System.Windows.Forms.CheckBox startupChkBx;
         private System.Windows.Forms.NotifyIcon notifyIcon;
+        private System.Windows.Forms.ContextMenuStrip notifyContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem nextWallPaper;
+        private System.Windows.Forms.ToolStripMenuItem refreshScreens;
     }
 }
 
