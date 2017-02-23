@@ -8,4 +8,4 @@ deploy:
   skip_cleanup: true
   on:
     repo: Jimver/jimsbackgroundchanger
-	tags: true
+    tags: true
