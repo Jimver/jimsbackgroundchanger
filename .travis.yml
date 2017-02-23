@@ -10,6 +10,8 @@ deploy:
     repo: Jimver/jimsbackgroundchanger
     tags: true
 install:
+  - pwd
+  - echo $TRAVIS_BUILD_DIR
   - nuget restore JimsBackgroundChanger.sln
   - sudo apt-get install gtk-sharp2
   - curl -sS https://api.nuget.org/packages/mono.cecil.0.9.5.4.nupkg > /tmp/mono.cecil.0.9.5.4.nupkg.zip
@@ -22,7 +24,7 @@ install:
   - ./configure
   - make
   - sudo make install
-  - cd ../../jimver/jimsbackgroundchanger
+  - cd $TRAVIS_BUILD_DIR
 script:
   - xbuild /p:Configuration=Release ./JimsBackgroundChanger.sln
   - export LD_LIBRARY_PATH=/usr/local/lib
