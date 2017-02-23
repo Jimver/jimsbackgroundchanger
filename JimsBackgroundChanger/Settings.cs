@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.Serialization.Formatters.Soap;
+using NUnit.Framework;
 
 namespace JimsBackgroundChanger
 {
@@ -172,6 +172,32 @@ namespace JimsBackgroundChanger
 
             // Close the stream.
             stream.Close();
+        }
+
+        protected bool Equals(Settings other)
+        {
+            return new HashSet<Resolution>(_resolutions).SetEquals(other._resolutions) && _startup == other._startup;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((Settings)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((_resolutions?.GetHashCode() ?? 0) * 397) ^ _startup.GetHashCode();
+            }
+        }
+
+        public override string ToString()
+        {
+            return Resolutions.ToString() + ", " + Startup;
         }
     }
 }

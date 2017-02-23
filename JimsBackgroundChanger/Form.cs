@@ -27,7 +27,7 @@ namespace JimsBackgroundChanger
             var val = jpegHack?.GetValue("JPEGImportQuality");
             if (jpegHack != null && val != null)
             {
-                jpegHackChkBx.Checked = (int)val == 100;
+                jpegHackChkBx.Checked = (int) val == 100;
             }
             else jpegHackChkBx.Checked = false;
 
@@ -53,6 +53,7 @@ namespace JimsBackgroundChanger
         {
             foreach (ListViewItem folder in folderView.CheckedItems)
             {
+                settings.Resolutions.Find(res => res.Equals(ConvertRes(folder.Group.Header))).Folders.Remove(folder.Text);
                 folderView.Items.Remove(folder);
             }
         }
@@ -110,9 +111,9 @@ namespace JimsBackgroundChanger
             }
         }
 
-        private Settings.Resolution ConvertRes()
+        private Settings.Resolution ConvertRes(string res)
         {
-            string[] splitRes = resComboBox.Text.Split('x');
+            string[] splitRes = res.Split('x');
             int width, height;
             if (splitRes.Length == 0 || splitRes.Length != 2 || !int.TryParse(splitRes[0], out width) ||
                 !int.TryParse(splitRes[1], out height))
@@ -120,6 +121,11 @@ namespace JimsBackgroundChanger
                 return null;
             }
             return new Settings.Resolution(width, height, new List<string>());
+        }
+
+        private Settings.Resolution ConvertRes()
+        {
+            return ConvertRes(resComboBox.Text);
         }
 
         private void saveBtn_Click(object sender, EventArgs e)
@@ -155,7 +161,7 @@ namespace JimsBackgroundChanger
         }
 
         private void Form_Resize(object sender, EventArgs e)
-        { 
+        {
             if (WindowState == FormWindowState.Minimized)
             {
                 Hide();
