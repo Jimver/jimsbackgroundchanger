@@ -9,9 +9,27 @@ deploy:
   on:
     repo: Jimver/jimsbackgroundchanger
     tags: true
+    
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "NfYKnkBYsIvm6IGxauYhNeSdt2ypgmCgV90SgpErXQ4P3zaEI4+TpPt7uzcO1926l4HmyQmXhh8vhdXb4WCGJf8pSx7Kf4oQ9lFYNJLaeJQcOJRu8h5GSsIz9aCA2mdSEKToBubQ5B7i8IbsKXGaPdv1MKMrCWXa3Sazfpu24qZ0MMhUXbsapAzDEAVayghjqRwSocVQSmqP+tbX9qdJ4amX2CssjlhnzTB0TGmtS/c+milMB1dwN7ECZlZgfzWS+VlWjyrwVGVAiqL9bg7FPGIU6d2qMKtbuC3tM6CmO7OP1fEXfi5QraHQkbkShpz0tYk9zU3K34EX6NXNSxu3Ti306Z+e+ppj/jVLjOq6peq8Zj4ye4E7ebTTz+9zGFIFN/AW62OpIQzr9e4BV+CJ+AV5dbdxEgSG3tLXlSRhsirdz3VeZM39Pl/i/aZpsxs2GpTGmGm4MJxIB7NTpbutGAWjPIJnUCKVW4fiw7Adbyev0qfVldNHYYyW89ZvwmBD1LtePDhdC6zpArkb8TmSs3wWYK32+mDmwbj2ONYIxRn/5h6L5AsWP+65j8Na1kqVptRImGqpIQTAYPy/BYQsswtg7BQ4iC9ZAFfX5vYOs6Px5Xd+YRrJtxqbS5TpR810XguPWPoOhF84if7g1E2X3ijCfuq2T/lT6sd5auh/QNI="
+
+before_install:
+      - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+
+addons:
+  coverity_scan:
+    project:
+      name: "Jimver/jimsbackgroundchanger"
+      description: "Build submitted via Travis CI"
+    notification_email: jim.verheijde@hotmail.com
+    build_command_prepend: "xbuild /p:Configuration=Release /t:Clean"
+    build_command:   "xbuild /p:Configuration=Release /t:Rebuild"
+    branch_pattern: coverity_scan
+    
 install:
-  - pwd
-  - echo $TRAVIS_BUILD_DIR
   - nuget restore JimsBackgroundChanger.sln
   - sudo apt-get install gtk-sharp2
   - curl -sS https://api.nuget.org/packages/mono.cecil.0.9.5.4.nupkg > /tmp/mono.cecil.0.9.5.4.nupkg.zip
@@ -28,7 +46,7 @@ install:
 script:
   - xbuild /p:Configuration=Release ./JimsBackgroundChanger.sln
   - export LD_LIBRARY_PATH=/usr/local/lib
-  - mono --debug --profile=monocov:outfile=monocovCoverage.cov,+JimsBackGroundChanger ./packages/NUnit.ConsoleRunner.3.6.0/tools/nunit-console.exe --process=Single ./JimsBackgroundChanger.Tests/bin/Release/JimsBackgroundChanger.Tests.dll
+  - mono --debug --profile=monocov:outfile=monocovCoverage.cov ./packages/NUnit.ConsoleRunner.3.6.0/tools/nunit-console.exe --process=Single ./JimsBackgroundChanger.Tests/bin/Release/JimsBackgroundChanger.Tests.dll
   - monocov --export-xml=monocovCoverage monocovCoverage.cov
   - cat monocovCoverage.cov
   - ls monocovCoverage
