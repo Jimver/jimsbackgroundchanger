@@ -188,6 +188,7 @@
             // 
             // saveBtn
             // 
+            this.saveBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.saveBtn.Location = new System.Drawing.Point(528, 347);
             this.saveBtn.Name = "saveBtn";
             this.saveBtn.Size = new System.Drawing.Size(75, 23);
@@ -198,6 +199,7 @@
             // 
             // nextBtn
             // 
+            this.nextBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.nextBtn.Location = new System.Drawing.Point(409, 347);
             this.nextBtn.Name = "nextBtn";
             this.nextBtn.Size = new System.Drawing.Size(113, 23);
@@ -231,7 +233,7 @@
             // 
             this.notifyIcon.ContextMenuStrip = this.notifyContextMenuStrip;
             this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
-            this.notifyIcon.Text = "notifyIcon";
+            this.notifyIcon.Text = "Jim\'s Background Changer";
             this.notifyIcon.Visible = true;
             this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
             // 
@@ -289,7 +291,7 @@
             this.Controls.Add(this.folderView);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form";
-            this.Text = "Jims background changer";
+            this.Text = "Jims Background Changer";
             this.Resize += new System.EventHandler(this.Form_Resize);
             this.notifyContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
