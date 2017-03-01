@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using NUnit.Framework;
 
 namespace JimsBackgroundChanger
 {
