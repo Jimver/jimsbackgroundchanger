@@ -34,4 +34,4 @@ install:
   - nuget restore JimsBackgroundChanger.sln
 script:
   - xbuild /p:Configuration=Release ./JimsBackgroundChanger.sln
-  - mono ./testrunner/NUnit.Runners.*/tools/nunit-console.exe ./JimsBackgroundChanger.Tests/bin/Release/JimsBackgroundChanger.Tests.dll
+  - mono ./packages/NUnit.ConsoleRunner.*/tools/nunit3-console.exe ./JimsBackgroundChanger.Tests/bin/Release/JimsBackgroundChanger.Tests.dll
