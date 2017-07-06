@@ -28,7 +28,7 @@ addons:
       description: "Build submitted via Travis CI, on coverity_scan branch"
     notification_email: jim.verheijde@hotmail.com
     build_command_prepend: "xbuild /p:Configuration=Release /t:Clean"
-    build_command: "xbuild /p:Configuration=Release /t:Rebuild"
+    build_command: "xbuild /p:Configuration=Release ./JimsBackgroundChanger.sln"
     branch_pattern: coverity_scan
     
 install:
