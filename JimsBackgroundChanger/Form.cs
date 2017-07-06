@@ -27,7 +27,7 @@ namespace JimsBackgroundChanger
             var val = jpegHack?.GetValue("JPEGImportQuality");
             if (jpegHack != null && val != null)
             {
-                jpegHackChkBx.Checked = (int) val == 100;
+                jpegHackChkBx.Checked = (int)val == 100;
             }
             else jpegHackChkBx.Checked = false;
 
@@ -138,7 +138,9 @@ namespace JimsBackgroundChanger
                 rk?.SetValue(AppName, Application.ExecutablePath);
             }
             else
+            {
                 rk?.DeleteValue(AppName, false);
+            }
             Wallpaper.SetSlideShow(settings, Wallpaper.GetResolution());
         }
 
