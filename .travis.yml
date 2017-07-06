@@ -32,7 +32,6 @@ deploy:
     
 install:
   - nuget restore JimsBackgroundChanger.sln
-  - sudo apt-get install gtk-sharp2
 script:
   - xbuild /p:Configuration=Release ./JimsBackgroundChanger.sln
   - mono ./testrunner/NUnit.Runners.*/tools/nunit-console.exe ./JimsBackgroundChanger.Tests/bin/Release/JimsBackgroundChanger.Tests.dll
