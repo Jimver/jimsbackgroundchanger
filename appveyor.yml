@@ -4,7 +4,7 @@ before_build:
 - nuget restore
 
 build:
-  project: CodecovProject.sln
+  project: JimsBackgroundChanger.sln
   verbosity: minimal
 
 test_script:
