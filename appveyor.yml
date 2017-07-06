@@ -8,5 +8,5 @@ build:
   verbosity: minimal
 
 test_script:
-- .\packages\OpenCover.*\tools\OpenCover.Console.exe -register:user -target:".\packages\NUnit.ConsoleRunner.*\tools\nunit3-console.exe" -targetargs:"./JimsBackgroundChanger.Tests/bin/Release/JimsBackgroundChanger.Tests.dll" -output:".\coverage.xml"
+- .\packages\OpenCover.*\tools\OpenCover.Console.exe -register:user -target:".\packages\NUnit.ConsoleRunner.*\tools\nunit3-console.exe" -targetargs:".\JimsBackgroundChanger.Tests\bin\Release\JimsBackgroundChanger.Tests.dll" -output:".\coverage.xml"
 - .\packages\Codecov.*\codecov.exe -f "coverage.xml" -t 4b4666f3-dbf9-4798-988e-6533df907d44
