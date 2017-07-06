@@ -17,7 +17,7 @@ env:
    #   via the "travis encrypt" command using the project repo's public key
    - secure: "nokfcpEGFlLp2A1/l3wwmJaR65dmjY3A4/niWCoYvK4pw/E8Xw26DGEX9+WhCd3g0C/5qIJ6TM8jjMMFarrQLlHg9uAkdumkO8aZ8OuY6GC49CVJCtDp90r6zRDVaQ6Ou6ZKjfWM2ypniYBXDWja6ztERGuOndWJy4N2WESAznJ2C8glQ9M0RnsjRRQkOznrW74Xzcd6pOk3ntO48iQx6KP0UZu5lpndQuV7A00PQvQ0YvZQyM+MGGUXfttFgyKzKQFOXVqIXkzwEs9S6ZHq8Ch8fmllRMv4p7U3VX33j1d2VaFxfTOJVu1UpzSycAKs0RlBGJqrPhAJvN0snEb2Ve437g1U54HzFZleYdns9H8SlCsXEc9aiCAVqs0TtYrZUIFGCFEebfR+sCeDqspuDZXAIh7Bc1WFkSA3wUIRUGE5hnl7nML/x1AqXOmt97TcdiF53cFgk4DIR/2kPyhugbTz4wifj8YQPTke63T2MtMdOYhdEUDN2AVw2H8XXru2tmn0aPOYGcaDL61j6uFnrMugRJqXw5XJSpV7JCWpdHtmT9v6o/w8225zaWNNJ02qqrMOVj7jy7IWXiEBSx0axBWiTfBrXQ7An3jSUdYKGBXyiSmz9RBpZpScFpIFhYc34pzNICPfqbciBmiN4jUKN6+if+8s/EkkVg34HhCK0/w="
 
-#before_install:
+before_install:
       - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 
 addons:
