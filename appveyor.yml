@@ -52,8 +52,6 @@ build_script:
       --overwrite
 
     # Upload results to Coverity server.
-    $version = "$env:VersionMajor.$env:VersionMinor.$env:VersionPatch" +
-      "-$env:VersionStage+$env:VersionBuild"
     "Uploading Coverity results..."
     & "$coverityPublisher" publish `
       --nologo `
@@ -62,7 +60,7 @@ build_script:
       -r "$env:APPVEYOR_REPO_NAME" `
       -z "$env:APPVEYOR_BUILD_FOLDER\$env:APPVEYOR_PROJECT_NAME.zip" `
       -d "CI server branch build." `
-      --codeVersion "$version"
+      --codeVersion "$env:APPVEYOR_BUILD_VERSION"
 
 test_script:
 - .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:".\packages\NUnit.ConsoleRunner.3.6.1\tools\nunit3-console.exe" -targetargs:".\JimsBackgroundChanger.Tests\bin\Release\JimsBackgroundChanger.Tests.dll" -output:".\coverage.xml"
