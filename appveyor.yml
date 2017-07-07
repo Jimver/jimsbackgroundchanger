@@ -1,6 +1,3 @@
-# Version format.
-version: '{build}-ci'
-
 environment:
   CoverityNotificationEmail:
     secure: 1wFmXv8pyof6OZaenCHJx4xZCCXaWRAQh17RKGBKaWI=
@@ -30,8 +27,9 @@ build_script:
       "/p:Configuration=$env:CONFIGURATION")
     # If build is not a scheduled one, then simply build the project with
     # MSBuild.
-    #if ($env:APPVEYOR_SCHEDULED_BUILD -ne "True") {
-    if ($env:APPVEYOR_REPO_BRANCH -ne "coverity_scan") {
+    if ($env:APPVEYOR_SCHEDULED_BUILD -ne "True") {
+    # Use this for branch only
+    #if ($env:APPVEYOR_REPO_BRANCH -ne "coverity_scan") {
       & $buildCmd $buildArgs
       return
     }
