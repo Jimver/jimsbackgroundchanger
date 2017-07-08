@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
@@ -13,8 +14,13 @@ namespace JimsBackgroundChanger
         [STAThread]
         static void Main()
         {
-            AppDomain currentDomain = AppDomain.CurrentDomain;
-            currentDomain.UnhandledException += new UnhandledExceptionEventHandler(MyHandler);
+            //string path = Directory.GetCurrentDirectory();
+            //DateTime dt = DateTime.Now;
+            //File.AppendAllText("C:\\Users\\Jim\\jbcstart.txt", "[" + dt + "] Started from : " + path + Environment.NewLine);
+            string appPath = new Uri(Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase)).LocalPath;
+            Directory.SetCurrentDirectory(appPath);
+            //AppDomain currentDomain = AppDomain.CurrentDomain;
+            //currentDomain.UnhandledException += new UnhandledExceptionEventHandler(MyHandler);
             SystemEvents.DisplaySettingsChanged += Wallpaper.SystemEvents_DisplaySettingsChanged;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -23,11 +29,13 @@ namespace JimsBackgroundChanger
 
         static void MyHandler(object sender, UnhandledExceptionEventArgs args)
         {
+            DateTime dt = DateTime.Now;
             Exception e = (Exception)args.ExceptionObject;
-            string msg = "MyHandler caught : " + e.Message + Environment.NewLine;
+            string msg = "[" + dt + "] MyHandler caught : " + e.Message + Environment.NewLine;
             msg += $"Runtime terminating: {args.IsTerminating}";
             Console.WriteLine(msg);
-            File.AppendAllText(@"C:\path\jbclog.txt", msg + Environment.NewLine);
+            MessageBox.Show(msg, "ERROR");
+            File.AppendAllText("C:\\Users\\Jim\\jbclog.txt", msg + Environment.NewLine);
         }
     }
 }

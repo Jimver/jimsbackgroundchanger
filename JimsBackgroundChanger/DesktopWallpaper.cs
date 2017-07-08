@@ -168,6 +168,7 @@ namespace JimsBackgroundChanger
         public static void SetSlideShow(Settings settings, Settings.Resolution resolution)
         {
             DesktopWallpaper.IDesktopWallpaper wallpaper = DesktopWallpaper.WallpaperWrapper.GetWallpaper();
+
             IShellItemArray pictures = FoldersToShellItemArray(settings.Resolutions.Find(res => res.Equals(resolution)).Folders.ToArray());
 
             wallpaper.SetSlideshow(pictures);
