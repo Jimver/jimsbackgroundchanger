@@ -1,15 +1,61 @@
+environment:
+  CoverityNotificationEmail:
+    secure: 1wFmXv8pyof6OZaenCHJx4xZCCXaWRAQh17RKGBKaWI=
+  CoverityProjectToken:
+    secure: UZi2+rxdtn9iv2j3MBhz5Ti2XusIKn+ps9TxXHin7mA=
+
+init:
+# Properties, passed to MSBuild project.
+- ps: |
+    $env:BuildDir = "$env:APPVEYOR_BUILD_FOLDER\.OUTPUT"
+    $env:VersionBuild = "$env:APPVEYOR_BUILD_NUMBER"
+    $env:VersionStage = "$env:APPVEYOR_REPO_BRANCH"
+    $env:VersionTag = "$env:APPVEYOR_REPO_COMMIT"
+
 image: Visual Studio 2017
 
 configuration:
 - Release
 
-before_build:
-- nuget restore
+build_script:
+- ps: |
+    nuget restore
+    $buildCmd = "msbuild.exe"
+    $buildArgs = @(
+      "/m",
+      "/l:C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll",
+      "/p:Configuration=$env:CONFIGURATION")
+    # If build is not a scheduled one, then simply build the project with
+    # MSBuild.
+    if ($env:APPVEYOR_SCHEDULED_BUILD -ne "True") {
+    # Use this for branch only
+    #if ($env:APPVEYOR_REPO_BRANCH -ne "coverity_scan") {
+      & $buildCmd $buildArgs
+      return
+    }
 
-build:
-  project: JimsBackgroundChanger.sln
-  verbosity: minimal
+    # Else, build project with Coverity Scan.
+    "Building project with Coverity..."
+    & cov-build.exe --dir cov-int $buildCmd $buildArgs
+    # Compress results.
+    $coverityPublisher =
+      ".\packages\PublishCoverity.0.11.0\tools\PublishCoverity.exe"
+    "Compressing Coverity results..."
+    & "$coverityPublisher" compress `
+      -i "$env:APPVEYOR_BUILD_FOLDER\cov-int" `
+      -o "$env:APPVEYOR_BUILD_FOLDER\$env:APPVEYOR_PROJECT_NAME.zip" `
+      --overwrite
+
+    # Upload results to Coverity server.
+    "Uploading Coverity results..."
+    & "$coverityPublisher" publish `
+      -t "$env:CoverityProjectToken" `
+      -e "$env:CoverityNotificationEmail" `
+      -r "$env:APPVEYOR_REPO_NAME" `
+      -z "$env:APPVEYOR_BUILD_FOLDER\$env:APPVEYOR_PROJECT_NAME.zip" `
+      -d "CI server branch build." `
+      --codeVersion "$env:APPVEYOR_BUILD_VERSION"
 
 test_script:
-- .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:".\packages\NUnit.ConsoleRunner.3.6.1\tools\nunit3-console.exe" -targetargs:".\JimsBackgroundChanger.Tests\bin\Release\JimsBackgroundChanger.Tests.dll" -output:".\coverage.xml"
+- .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:".\packages\NUnit.ConsoleRunner.3.6.1\tools\nunit3-console.exe" -targetargs:".\JimsBackgroundChanger.Tests\bin\Release\JimsBackgroundChanger.Tests.dll" -filter:"-[*.Tests]*" -output:".\coverage.xml"
 - .\packages\Codecov.1.0.1\tools\codecov.exe -f "coverage.xml" -t 4b4666f3-dbf9-4798-988e-6533df907d44
