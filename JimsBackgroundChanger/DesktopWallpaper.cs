@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+// ReSharper disable InconsistentNaming
 
 namespace JimsBackgroundChanger
 {
@@ -109,7 +110,17 @@ namespace JimsBackgroundChanger
     {
         public static void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
         {
-            SetSlideShow(Settings.Load(), GetResolution());
+            Settings settings = Settings.Load();
+            try
+            {
+                Command.Run(settings.CliCommand, settings.CliArgs);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                throw;
+            }
+            SetSlideShow(settings, GetResolution());
         }
 
         public static void GetSlideShow(string[] paths)
@@ -169,11 +180,22 @@ namespace JimsBackgroundChanger
         {
             DesktopWallpaper.IDesktopWallpaper wallpaper = DesktopWallpaper.WallpaperWrapper.GetWallpaper();
 
-            IShellItemArray pictures = FoldersToShellItemArray(settings.Resolutions.Find(res => res.Equals(resolution)).Folders.ToArray());
-
-            wallpaper.SetSlideshow(pictures);
-
-            Marshal.ReleaseComObject(wallpaper);
+            try
+            {
+                IShellItemArray pictures =
+                    FoldersToShellItemArray(settings.Resolutions.Find(res => res.Equals(resolution))?.Folders
+                        .ToArray());
+                if (pictures == null) throw new Exception("No resolution found");
+                wallpaper.SetSlideshow(pictures);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+            finally
+            {
+                Marshal.ReleaseComObject(wallpaper);
+            }
         }
         
         public enum SIGDN : UInt32
@@ -339,6 +361,7 @@ namespace JimsBackgroundChanger
 
         public static IShellItemArray FoldersToShellItemArray(string[] paths)
         {
+            if (paths == null) return null;
             foreach (string path in paths)
             {
                 if (!Directory.Exists(path)) throw new ArgumentException("The path does not exist.");
@@ -362,8 +385,7 @@ namespace JimsBackgroundChanger
                 PDILArr[i] = ILCreateFromPath(files[i]);
             }
 
-            IShellItemArray siArr;
-            SHCreateShellItemArrayFromIDLists((uint) files.Count, PDILArr, out siArr);
+            SHCreateShellItemArrayFromIDLists((uint) files.Count, PDILArr, out var siArr);
 
             return siArr;
         }

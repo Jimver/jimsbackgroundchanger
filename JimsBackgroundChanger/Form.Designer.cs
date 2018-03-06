@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("1920x1080", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("3440x1440", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("folder1");
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("folder2");
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("folder3");
+            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("1920x1080", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("3440x1440", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("folder1");
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("folder2");
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("folder3");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form));
             this.folderView = new System.Windows.Forms.ListView();
             this.folderCollumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -55,6 +55,11 @@
             this.nextWallPaper = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshScreens = new System.Windows.Forms.ToolStripMenuItem();
             this.jpegHackChkBx = new System.Windows.Forms.CheckBox();
+            this.cliTextBox = new System.Windows.Forms.TextBox();
+            this.cliLabel = new System.Windows.Forms.Label();
+            this.cliTest = new System.Windows.Forms.Button();
+            this.argsTextBox = new System.Windows.Forms.TextBox();
+            this.argLabel = new System.Windows.Forms.Label();
             this.notifyContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,31 +73,31 @@
             this.folderCollumn});
             this.folderView.FullRowSelect = true;
             this.folderView.GridLines = true;
-            listViewGroup1.Header = "1920x1080";
-            listViewGroup1.Name = "res1";
-            listViewGroup2.Header = "3440x1440";
-            listViewGroup2.Name = "res2";
+            listViewGroup3.Header = "1920x1080";
+            listViewGroup3.Name = "res1";
+            listViewGroup4.Header = "3440x1440";
+            listViewGroup4.Name = "res2";
             this.folderView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2});
-            listViewItem1.Group = listViewGroup1;
-            listViewItem1.StateImageIndex = 0;
-            listViewItem1.ToolTipText = "lel";
-            listViewItem2.Group = listViewGroup1;
-            listViewItem2.StateImageIndex = 0;
-            listViewItem2.ToolTipText = "f2";
-            listViewItem3.Group = listViewGroup2;
-            listViewItem3.StateImageIndex = 0;
-            listViewItem3.ToolTipText = "fu";
+            listViewGroup3,
+            listViewGroup4});
+            listViewItem4.Group = listViewGroup3;
+            listViewItem4.StateImageIndex = 0;
+            listViewItem4.ToolTipText = "lel";
+            listViewItem5.Group = listViewGroup3;
+            listViewItem5.StateImageIndex = 0;
+            listViewItem5.ToolTipText = "f2";
+            listViewItem6.Group = listViewGroup4;
+            listViewItem6.StateImageIndex = 0;
+            listViewItem6.ToolTipText = "fu";
             this.folderView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3});
+            listViewItem4,
+            listViewItem5,
+            listViewItem6});
             this.folderView.LabelEdit = true;
-            this.folderView.Location = new System.Drawing.Point(12, 124);
+            this.folderView.Location = new System.Drawing.Point(12, 172);
             this.folderView.Name = "folderView";
-            this.folderView.Size = new System.Drawing.Size(591, 217);
-            this.folderView.TabIndex = 5;
+            this.folderView.Size = new System.Drawing.Size(591, 194);
+            this.folderView.TabIndex = 15;
             this.folderView.UseCompatibleStateImageBehavior = false;
             this.folderView.View = System.Windows.Forms.View.Details;
             // 
@@ -104,10 +109,10 @@
             // deleteFoldersBtn
             // 
             this.deleteFoldersBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.deleteFoldersBtn.Location = new System.Drawing.Point(12, 347);
+            this.deleteFoldersBtn.Location = new System.Drawing.Point(12, 372);
             this.deleteFoldersBtn.Name = "deleteFoldersBtn";
             this.deleteFoldersBtn.Size = new System.Drawing.Size(75, 23);
-            this.deleteFoldersBtn.TabIndex = 6;
+            this.deleteFoldersBtn.TabIndex = 16;
             this.deleteFoldersBtn.Text = "Delete";
             this.deleteFoldersBtn.UseVisualStyleBackColor = true;
             this.deleteFoldersBtn.Click += new System.EventHandler(this.deleteFoldersBtn_Click);
@@ -118,7 +123,7 @@
             this.addFolderBtn.Location = new System.Drawing.Point(528, 12);
             this.addFolderBtn.Name = "addFolderBtn";
             this.addFolderBtn.Size = new System.Drawing.Size(75, 23);
-            this.addFolderBtn.TabIndex = 7;
+            this.addFolderBtn.TabIndex = 3;
             this.addFolderBtn.Text = "Add";
             this.addFolderBtn.UseVisualStyleBackColor = true;
             this.addFolderBtn.Click += new System.EventHandler(this.addFolderBtn_Click);
@@ -130,7 +135,7 @@
             this.folderTxtbx.Location = new System.Drawing.Point(82, 14);
             this.folderTxtbx.Name = "folderTxtbx";
             this.folderTxtbx.Size = new System.Drawing.Size(359, 20);
-            this.folderTxtbx.TabIndex = 8;
+            this.folderTxtbx.TabIndex = 1;
             // 
             // folderLbl
             // 
@@ -138,7 +143,7 @@
             this.folderLbl.Location = new System.Drawing.Point(12, 17);
             this.folderLbl.Name = "folderLbl";
             this.folderLbl.Size = new System.Drawing.Size(42, 13);
-            this.folderLbl.TabIndex = 11;
+            this.folderLbl.TabIndex = 0;
             this.folderLbl.Text = "Folder :";
             // 
             // resLbl
@@ -147,7 +152,7 @@
             this.resLbl.Location = new System.Drawing.Point(12, 46);
             this.resLbl.Name = "resLbl";
             this.resLbl.Size = new System.Drawing.Size(63, 13);
-            this.resLbl.TabIndex = 12;
+            this.resLbl.TabIndex = 4;
             this.resLbl.Text = "Resolution :";
             // 
             // resComboBox
@@ -159,14 +164,14 @@
             this.resComboBox.Location = new System.Drawing.Point(82, 46);
             this.resComboBox.Name = "resComboBox";
             this.resComboBox.Size = new System.Drawing.Size(121, 21);
-            this.resComboBox.TabIndex = 13;
+            this.resComboBox.TabIndex = 5;
             // 
             // addResBtn
             // 
             this.addResBtn.Location = new System.Drawing.Point(211, 46);
             this.addResBtn.Name = "addResBtn";
             this.addResBtn.Size = new System.Drawing.Size(75, 23);
-            this.addResBtn.TabIndex = 14;
+            this.addResBtn.TabIndex = 6;
             this.addResBtn.Text = "Add";
             this.addResBtn.UseVisualStyleBackColor = true;
             this.addResBtn.Click += new System.EventHandler(this.addResBtn_Click);
@@ -176,7 +181,7 @@
             this.deleteResBtn.Location = new System.Drawing.Point(292, 46);
             this.deleteResBtn.Name = "deleteResBtn";
             this.deleteResBtn.Size = new System.Drawing.Size(75, 23);
-            this.deleteResBtn.TabIndex = 15;
+            this.deleteResBtn.TabIndex = 7;
             this.deleteResBtn.Text = "Delete";
             this.deleteResBtn.UseVisualStyleBackColor = true;
             this.deleteResBtn.Click += new System.EventHandler(this.deleteResBtn_Click);
@@ -189,10 +194,10 @@
             // saveBtn
             // 
             this.saveBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.saveBtn.Location = new System.Drawing.Point(528, 347);
+            this.saveBtn.Location = new System.Drawing.Point(528, 372);
             this.saveBtn.Name = "saveBtn";
             this.saveBtn.Size = new System.Drawing.Size(75, 23);
-            this.saveBtn.TabIndex = 16;
+            this.saveBtn.TabIndex = 18;
             this.saveBtn.Text = "Save";
             this.saveBtn.UseVisualStyleBackColor = true;
             this.saveBtn.Click += new System.EventHandler(this.saveBtn_Click);
@@ -200,7 +205,7 @@
             // nextBtn
             // 
             this.nextBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.nextBtn.Location = new System.Drawing.Point(409, 347);
+            this.nextBtn.Location = new System.Drawing.Point(409, 372);
             this.nextBtn.Name = "nextBtn";
             this.nextBtn.Size = new System.Drawing.Size(113, 23);
             this.nextBtn.TabIndex = 17;
@@ -213,7 +218,7 @@
             this.browseBtn.Location = new System.Drawing.Point(447, 12);
             this.browseBtn.Name = "browseBtn";
             this.browseBtn.Size = new System.Drawing.Size(75, 23);
-            this.browseBtn.TabIndex = 18;
+            this.browseBtn.TabIndex = 2;
             this.browseBtn.Text = "Browse...";
             this.browseBtn.UseVisualStyleBackColor = true;
             this.browseBtn.Click += new System.EventHandler(this.browseBtn_Click);
@@ -224,7 +229,7 @@
             this.startupChkBx.Location = new System.Drawing.Point(12, 78);
             this.startupChkBx.Name = "startupChkBx";
             this.startupChkBx.Size = new System.Drawing.Size(93, 17);
-            this.startupChkBx.TabIndex = 19;
+            this.startupChkBx.TabIndex = 8;
             this.startupChkBx.Text = "Run at startup";
             this.startupChkBx.UseVisualStyleBackColor = true;
             this.startupChkBx.CheckedChanged += new System.EventHandler(this.startupChkBx_CheckedChanged);
@@ -265,16 +270,65 @@
             this.jpegHackChkBx.Location = new System.Drawing.Point(13, 101);
             this.jpegHackChkBx.Name = "jpegHackChkBx";
             this.jpegHackChkBx.Size = new System.Drawing.Size(113, 17);
-            this.jpegHackChkBx.TabIndex = 21;
+            this.jpegHackChkBx.TabIndex = 9;
             this.jpegHackChkBx.Text = "JPEG quality hack";
             this.jpegHackChkBx.UseVisualStyleBackColor = true;
             this.jpegHackChkBx.CheckedChanged += new System.EventHandler(this.jpegHackChkBx_CheckedChanged);
+            // 
+            // cliTextBox
+            // 
+            this.cliTextBox.Location = new System.Drawing.Point(82, 124);
+            this.cliTextBox.Name = "cliTextBox";
+            this.cliTextBox.Size = new System.Drawing.Size(191, 20);
+            this.cliTextBox.TabIndex = 11;
+            this.cliTextBox.TextChanged += new System.EventHandler(this.cliTextBox_TextChanged);
+            // 
+            // cliLabel
+            // 
+            this.cliLabel.AutoSize = true;
+            this.cliLabel.Location = new System.Drawing.Point(12, 127);
+            this.cliLabel.Name = "cliLabel";
+            this.cliLabel.Size = new System.Drawing.Size(66, 13);
+            this.cliLabel.TabIndex = 10;
+            this.cliLabel.Text = "On change: ";
+            // 
+            // cliTest
+            // 
+            this.cliTest.Location = new System.Drawing.Point(528, 122);
+            this.cliTest.Name = "cliTest";
+            this.cliTest.Size = new System.Drawing.Size(75, 23);
+            this.cliTest.TabIndex = 14;
+            this.cliTest.Text = "Test";
+            this.cliTest.UseVisualStyleBackColor = true;
+            this.cliTest.Click += new System.EventHandler(this.cliTest_Click);
+            // 
+            // argsTextBox
+            // 
+            this.argsTextBox.Location = new System.Drawing.Point(358, 125);
+            this.argsTextBox.Name = "argsTextBox";
+            this.argsTextBox.Size = new System.Drawing.Size(164, 20);
+            this.argsTextBox.TabIndex = 13;
+            this.argsTextBox.TextChanged += new System.EventHandler(this.argsTextBox_TextChanged);
+            // 
+            // argLabel
+            // 
+            this.argLabel.AutoSize = true;
+            this.argLabel.Location = new System.Drawing.Point(289, 128);
+            this.argLabel.Name = "argLabel";
+            this.argLabel.Size = new System.Drawing.Size(63, 13);
+            this.argLabel.TabIndex = 12;
+            this.argLabel.Text = "Arguments: ";
             // 
             // Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(615, 382);
+            this.ClientSize = new System.Drawing.Size(615, 407);
+            this.Controls.Add(this.argLabel);
+            this.Controls.Add(this.argsTextBox);
+            this.Controls.Add(this.cliTest);
+            this.Controls.Add(this.cliLabel);
+            this.Controls.Add(this.cliTextBox);
             this.Controls.Add(this.jpegHackChkBx);
             this.Controls.Add(this.startupChkBx);
             this.Controls.Add(this.browseBtn);
@@ -320,6 +374,11 @@
         private System.Windows.Forms.ToolStripMenuItem nextWallPaper;
         private System.Windows.Forms.ToolStripMenuItem refreshScreens;
         private System.Windows.Forms.CheckBox jpegHackChkBx;
+        private System.Windows.Forms.TextBox cliTextBox;
+        private System.Windows.Forms.Label cliLabel;
+        private System.Windows.Forms.Button cliTest;
+        private System.Windows.Forms.TextBox argsTextBox;
+        private System.Windows.Forms.Label argLabel;
     }
 }
 

@@ -87,6 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Command.cs" />
     <Compile Include="DesktopWallpaper.cs" />
     <Compile Include="Form.cs">
       <SubType>Form</SubType>

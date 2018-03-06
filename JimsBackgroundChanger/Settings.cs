@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace JimsBackgroundChanger
@@ -18,11 +19,11 @@ namespace JimsBackgroundChanger
         public class Resolution
         {
             // Dimensions
-            private int _width;
-            private int _height;
+            private readonly int _width;
+            private readonly int _height;
 
             // Folders
-            private List<string> _folders;
+            private readonly List<string> _folders;
 
             /// <summary>
             /// Constructor of a resolution.
@@ -38,25 +39,13 @@ namespace JimsBackgroundChanger
             }
 
             // Getter and setter for width.
-            public int Width
-            {
-                get { return _width; }
-                set { _width = value; }
-            }
+            public int Width => _width;
 
             // Getter and setter for height.
-            public int Height
-            {
-                get { return _height; }
-                set { _height = value; }
-            }
+            public int Height => _height;
 
             // Getter and setter for folders.
-            public List<string> Folders
-            {
-                get { return _folders; }
-                set { _folders = value; }
-            }
+            public List<string> Folders => _folders;
 
             /// <summary>
             /// ToString that only takes width and height into account.
@@ -97,29 +86,45 @@ namespace JimsBackgroundChanger
 
         // Fields
         private static string fileName = "settings.jbc";
-        private List<Resolution> _resolutions;
-        private bool _startup;
+        private readonly List<Resolution> _resolutions;
+        private readonly bool _startup;
+        private readonly string _cliCommand;
+        private readonly string _cliArgs;
 
-        public Settings(List<Resolution> resolutions, bool startup)
+        /// <summary>
+        /// Constructor of settings
+        /// </summary>
+        /// <param name="resolutions">Resolution list</param>
+        /// <param name="startup">startup boolean</param>
+        /// <param name="cliCommand">cli command</param>
+        /// <param name="cliArgs">cli args</param>
+        public Settings(List<Resolution> resolutions, bool startup, string cliCommand, string cliArgs)
         {
             _resolutions = resolutions;
             _startup = startup;
+            _cliCommand = cliCommand;
+            _cliArgs = cliArgs;
         }
 
         /// <summary>
         /// Getter and setter for resolutions.
         /// </summary>
-        public List<Resolution> Resolutions
-        {
-            get { return _resolutions; }
-            set { _resolutions = value; }
-        }
+        public List<Resolution> Resolutions => _resolutions;
 
-        public bool Startup
-        {
-            get { return _startup; }
-            set { _startup = value; }
-        }
+        /// <summary>
+        /// Getter and setter for startup
+        /// </summary>
+        public bool Startup => _startup;
+
+        /// <summary>
+        /// Getter and setter for the cli command
+        /// </summary>
+        public string CliCommand => _cliCommand;
+
+        /// <summary>
+        /// Getter and setter for the args
+        /// </summary>
+        public string CliArgs => _cliArgs;
 
         /// <summary>
         /// Load function.
@@ -130,7 +135,7 @@ namespace JimsBackgroundChanger
             // Create an empty settings file if it doesn't exist.
             if (!File.Exists(fileName))
             {
-                new Settings(new List<Resolution>(), false).Save();
+                new Settings(new List<Resolution>(), false, "", "").Save();
             }
 
             // Create stream and Settings.
@@ -173,30 +178,40 @@ namespace JimsBackgroundChanger
             stream.Close();
         }
 
-        protected bool Equals(Settings other)
+        public Settings Copy()
         {
-            return new HashSet<Resolution>(_resolutions).SetEquals(other._resolutions) && _startup == other._startup;
+            return new Settings(_resolutions, _startup, _cliCommand, _cliArgs);
         }
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
+            if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
             return Equals((Settings)obj);
+        }
+
+        protected bool Equals(Settings other)
+        {
+            return _resolutions.SequenceEqual(other._resolutions) && _startup == other._startup &&
+                   string.Equals(_cliCommand, other._cliCommand) && string.Equals(_cliArgs, other._cliArgs);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return ((_resolutions?.GetHashCode() ?? 0) * 397) ^ _startup.GetHashCode();
+                var hashCode = (_resolutions != null ? _resolutions.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ _startup.GetHashCode();
+                hashCode = (hashCode * 397) ^ (_cliCommand != null ? _cliCommand.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (_cliArgs != null ? _cliArgs.GetHashCode() : 0);
+                return hashCode;
             }
         }
 
         public override string ToString()
         {
-            return Resolutions.ToString() + ", " + Startup;
+            return Resolutions + ", " + Startup + ", " + CliCommand + ", " + CliArgs;
         }
     }
 }

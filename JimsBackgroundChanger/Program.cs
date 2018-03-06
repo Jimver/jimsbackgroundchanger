@@ -17,7 +17,7 @@ namespace JimsBackgroundChanger
             //string path = Directory.GetCurrentDirectory();
             //DateTime dt = DateTime.Now;
             //File.AppendAllText("C:\\Users\\Jim\\jbcstart.txt", "[" + dt + "] Started from : " + path + Environment.NewLine);
-            string appPath = new Uri(Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase)).LocalPath;
+            string appPath = new Uri(Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase) ?? throw new InvalidOperationException()).LocalPath;
             Directory.SetCurrentDirectory(appPath);
             //AppDomain currentDomain = AppDomain.CurrentDomain;
             //currentDomain.UnhandledException += new UnhandledExceptionEventHandler(MyHandler);
@@ -27,7 +27,8 @@ namespace JimsBackgroundChanger
             Application.Run(new Form());
         }
 
-        static void MyHandler(object sender, UnhandledExceptionEventArgs args)
+        /* Some debug code
+         private static void MyHandler(object sender, UnhandledExceptionEventArgs args)
         {
             DateTime dt = DateTime.Now;
             Exception e = (Exception)args.ExceptionObject;
@@ -37,5 +38,6 @@ namespace JimsBackgroundChanger
             MessageBox.Show(msg, "ERROR");
             File.AppendAllText("C:\\Users\\Jim\\jbclog.txt", msg + Environment.NewLine);
         }
+        */
     }
 }

@@ -11,23 +11,23 @@ namespace JimsBackgroundChanger
     public partial class Form : System.Windows.Forms.Form
     {
         private static string AppName = "Jim's Background Changer";
-        private Settings settings;
+        private Settings _settings;
 
         public Form()
         {
             InitializeComponent();
-            settings = Settings.Load();
-            UpdateUi();
+            _settings = Settings.Load();
+            UpdateUi(_settings.Copy());
         }
 
-        private void UpdateUi()
+        private void UpdateUi(Settings settings)
         {
             RegistryKey jpegHack = Registry.CurrentUser.OpenSubKey
                 ("Control Panel\\Desktop", true);
             var val = jpegHack?.GetValue("JPEGImportQuality");
             if (jpegHack != null && val != null)
             {
-                jpegHackChkBx.Checked = (int)val == 100;
+                jpegHackChkBx.Checked = (int) val == 100;
             }
             else jpegHackChkBx.Checked = false;
 
@@ -35,6 +35,8 @@ namespace JimsBackgroundChanger
             folderView.Items.Clear();
             folderView.Groups.Clear();
             resComboBox.Items.Clear();
+            cliTextBox.Text = settings.CliCommand;
+            argsTextBox.Text = settings.CliArgs;
             foreach (Settings.Resolution resolution in settings.Resolutions)
             {
                 ListViewGroup group = new ListViewGroup("res" + settings.Resolutions.IndexOf(resolution),
@@ -53,7 +55,8 @@ namespace JimsBackgroundChanger
         {
             foreach (ListViewItem folder in folderView.CheckedItems)
             {
-                settings.Resolutions.Find(res => res.Equals(ConvertRes(folder.Group.Header))).Folders.Remove(folder.Text);
+                _settings.Resolutions.Find(res => res.Equals(ConvertRes(folder.Group.Header))).Folders
+                    .Remove(folder.Text);
                 folderView.Items.Remove(folder);
             }
         }
@@ -67,17 +70,17 @@ namespace JimsBackgroundChanger
             }
             else
             {
-                settings.Resolutions.Add(ConvertRes());
-                UpdateUi();
+                _settings.Resolutions.Add(ConvertRes());
+                UpdateUi(_settings);
             }
         }
 
         private void deleteResBtn_Click(object sender, EventArgs e)
         {
-            if (settings.Resolutions.Contains(ConvertRes()))
+            if (_settings.Resolutions.Contains(ConvertRes()))
             {
-                settings.Resolutions.Remove(ConvertRes());
-                UpdateUi();
+                _settings.Resolutions.Remove(ConvertRes());
+                UpdateUi(_settings);
                 resComboBox.ResetText();
             }
             else
@@ -91,12 +94,13 @@ namespace JimsBackgroundChanger
         {
             if (Directory.Exists(folderTxtbx.Text))
             {
-                if (settings.Resolutions.Contains(ConvertRes()))
+                if (_settings.Resolutions.Contains(ConvertRes()))
                 {
                     Settings.Resolution resolution = ConvertRes();
-                    settings.Resolutions.Single(res => res.Width == resolution.Width && res.Height == resolution.Height)
+                    _settings.Resolutions
+                        .Single(res => res.Width == resolution.Width && res.Height == resolution.Height)
                         .Folders.Add(folderTxtbx.Text);
-                    UpdateUi();
+                    UpdateUi(_settings);
                 }
                 else
                 {
@@ -114,12 +118,12 @@ namespace JimsBackgroundChanger
         private Settings.Resolution ConvertRes(string res)
         {
             string[] splitRes = res.Split('x');
-            int width, height;
-            if (splitRes.Length == 0 || splitRes.Length != 2 || !int.TryParse(splitRes[0], out width) ||
-                !int.TryParse(splitRes[1], out height))
+            if (splitRes.Length == 0 || splitRes.Length != 2 || !int.TryParse(splitRes[0], out var width) ||
+                !int.TryParse(splitRes[1], out var height))
             {
                 return null;
             }
+
             return new Settings.Resolution(width, height, new List<string>());
         }
 
@@ -130,10 +134,10 @@ namespace JimsBackgroundChanger
 
         private void saveBtn_Click(object sender, EventArgs e)
         {
-            settings.Save();
+            _settings.Save();
             RegistryKey rk = Registry.CurrentUser.OpenSubKey
                 ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-            if (settings.Startup)
+            if (_settings.Startup)
             {
                 rk?.SetValue(AppName, Application.ExecutablePath);
             }
@@ -141,7 +145,8 @@ namespace JimsBackgroundChanger
             {
                 rk?.DeleteValue(AppName, false);
             }
-            Wallpaper.SetSlideShow(settings, Wallpaper.GetResolution());
+
+            Wallpaper.SetSlideShow(_settings, Wallpaper.GetResolution());
         }
 
         private void nextBtn_Click(object sender, EventArgs e)
@@ -159,7 +164,7 @@ namespace JimsBackgroundChanger
 
         private void startupChkBx_CheckedChanged(object sender, EventArgs e)
         {
-            settings.Startup = startupChkBx.Checked;
+            _settings = new Settings(_settings.Resolutions, startupChkBx.Checked, cliTextBox.Text, argsTextBox.Text);
         }
 
         private void Form_Resize(object sender, EventArgs e)
@@ -200,6 +205,41 @@ namespace JimsBackgroundChanger
             {
                 jpegHack?.DeleteValue("JPEGImportQuality");
             }
+        }
+
+        private void cliTest_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Command.Result result = Command.Run(cliTextBox.Text, argsTextBox.Text);
+                if (result.ExitCode != 0)
+                {
+                    MessageBox.Show(
+                        // ReSharper disable once LocalizableElement
+                        $"Exit code: {result.ExitCode}\nShell output: {result.Output}\nError output: {result.Error}",
+                        @"Test failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    // ReSharper disable once LocalizableElement
+                    MessageBox.Show($"Exit code: {result.ExitCode}\nShell output: {result.Output}",
+                        @"Test succeeded", MessageBoxButtons.OK);
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void cliTextBox_TextChanged(object sender, EventArgs e)
+        {
+            _settings = new Settings(_settings.Resolutions, _settings.Startup, cliTextBox.Text, argsTextBox.Text);
+        }
+
+        private void argsTextBox_TextChanged(object sender, EventArgs e)
+        {
+            _settings = new Settings(_settings.Resolutions, _settings.Startup, cliTextBox.Text, argsTextBox.Text);
         }
     }
 }

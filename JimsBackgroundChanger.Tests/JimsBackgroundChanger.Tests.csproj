@@ -92,6 +92,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResolutionTests.cs" />
     <Compile Include="SettingsTests.cs" />
+    <Compile Include="CommandTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JimsBackgroundChanger\JimsBackgroundChanger.csproj">
