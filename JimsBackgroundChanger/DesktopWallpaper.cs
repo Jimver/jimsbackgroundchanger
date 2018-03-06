@@ -118,7 +118,6 @@ namespace JimsBackgroundChanger
             catch (Exception exception)
             {
                 Console.WriteLine(exception);
-                throw;
             }
             SetSlideShow(settings, GetResolution());
         }
