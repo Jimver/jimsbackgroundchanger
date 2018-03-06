@@ -22,6 +22,7 @@ namespace JimsBackgroundChanger
             //AppDomain currentDomain = AppDomain.CurrentDomain;
             //currentDomain.UnhandledException += new UnhandledExceptionEventHandler(MyHandler);
             SystemEvents.DisplaySettingsChanged += Wallpaper.SystemEvents_DisplaySettingsChanged;
+            Wallpaper.SystemEvents_DisplaySettingsChanged(null, EventArgs.Empty);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form());
